@@ -1,0 +1,43 @@
+module ripple_carry_adder_sync_tb;
+    reg clk;
+    reg rst;
+    reg [3:0] A;
+    reg [3:0] B;
+    reg Cin;
+    wire [3:0] Sum;
+    wire Cout;
+
+    // Instantiate the DUT (Device Under Test)
+    ripple_carry_adder_sync uut(
+        .clk(clk),
+        .rst(rst),
+        .A(A),
+        .B(B),
+        .Cin(Cin),
+        .Sum(Sum),
+        .Cout(Cout)
+    );
+
+    // Clock Generation (Toggle every 10ns → 50MHz clock)
+    always #10 clk = ~clk;
+
+    // Test Sequence
+    initial begin
+        // Initialize signals
+        clk = 0;
+        rst = 1; A = 4'b0000; B = 4'b0000; Cin = 0;
+        #15 rst = 0; // Release reset
+        
+        // Test Cases
+        #20 A = 4'b0011; B = 4'b0101; Cin = 0;  // 3 + 5 = 8
+        #20 A = 4'b0111; B = 4'b0111; Cin = 1;  // 7 + 7 + 1 = 15
+        #20 A = 4'b1010; B = 4'b0101; Cin = 0;  // 10 + 5 = 15
+        #20 A = 4'b1100; B = 4'b0110; Cin = 1;  // 12 + 6 + 1 = 19
+
+        // Reset Test
+        #20 rst = 1;
+        #20 rst = 0; A = 4'b0001; B = 4'b0001; Cin = 0;  // 1 + 1 = 2
+
+        #20 $finish;  // End simulation
+    end
+endmodule
