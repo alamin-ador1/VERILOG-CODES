@@ -1,0 +1,41 @@
+module full_adder_sync_tb;
+    reg clk, rst;
+    reg a, b, cin;
+    wire S, Cout;
+
+   
+    full_adder_sync uut (
+        .clk(clk),
+        .rst(rst),
+        .a(a),
+        .b(b),
+        .cin(cin),
+        .S(S),
+        .Cout(Cout)
+    );
+
+ 
+    initial begin
+        clk = 0;
+        forever #5 clk = ~clk; // Toggle clock every 5 time units
+    end
+
+    // Test sequence
+    initial begin
+        // Initialize inputs
+        rst = 1; a = 0; b = 0; cin = 0; #10;
+        rst = 0; // Deassert reset
+
+        // Test all possible input combinations
+        a = 0; b = 0; cin = 0; #10;
+        a = 0; b = 0; cin = 1; #10;
+        a = 0; b = 1; cin = 0; #10;
+        a = 0; b = 1; cin = 1; #10;
+        a = 1; b = 0; cin = 0; #10;
+        a = 1; b = 0; cin = 1; #10;
+        a = 1; b = 1; cin = 0; #10;
+        a = 1; b = 1; cin = 1; #10;
+
+        $finish; 
+    end
+endmodule
