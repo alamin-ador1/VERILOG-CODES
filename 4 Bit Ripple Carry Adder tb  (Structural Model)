@@ -1,0 +1,31 @@
+module ripple_carry_adder_tb;
+
+  reg [3:0] A, B;
+  reg Cin;
+  wire [3:0] Sum;
+  wire Cout;
+
+  // Instantiate the 4-bit ripple carry adder
+  ripple_carry_adder_4bit uut (
+    .A(A),
+    .B(B),
+    .Cin(Cin),
+    .Sum(Sum),
+    .Cout(Cout)
+  );
+
+  initial begin
+    // Initialize inputs
+    Cin = 0; A = 4'b0000; B = 4'b0000;
+
+    // Apply test vectors
+    #10 A = 4'b0110; B = 4'b1100; Cin = 0;
+    #10 A = 4'b1110; B = 4'b1000; Cin = 0;
+    #10 A = 4'b0111; B = 4'b1110; Cin = 0;
+    #10 A = 4'b0010; B = 4'b1001; Cin = 0;
+    #10 A = 4'b1111; B = 4'b1111; Cin = 1;
+
+    #10 $finish;
+  end
+
+endmodule
