@@ -1,0 +1,17 @@
+module up_down_counter(
+	input wire clk,
+	input wire rst,
+	input wire up_down,
+	output reg [7:0]count
+    );
+
+	always@(posedge clk) begin
+		if(rst)
+		   count<=8'b00000000;      //reset
+                else if(up_down)
+		   count<=count+1;  //count up
+		else 
+	             count<=count-1;  //down counter
+  end
+
+endmodule
