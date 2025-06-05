@@ -1,0 +1,31 @@
+module four_bit_comparator_tb;
+	reg[3:0] A,B;
+	reg clk;
+	wire EQ,GT,LT;
+
+four_bit_comparator uut(
+	.A(A),
+	.B(B),
+	.clk(clk),
+	.EQ(EQ),
+	.GT(GT),
+	.LT(LT)
+ );
+	initial begin 
+	clk=0;
+	forever begin 
+	#10 clk=~clk;
+	end
+  end
+
+initial begin
+@(posedge clk);
+A=4'b0011;B=4'b0011;
+@(posedge clk);
+A=4'b0001;B=4'b0110;
+@(negedge clk);
+A=4'b0000;B=4'b1111;
+
+$finish;
+end
+endmodule
